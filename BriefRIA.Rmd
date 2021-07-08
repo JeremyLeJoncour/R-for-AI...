@@ -1,0 +1,64 @@
+---
+title: "Brief R for AI"
+output: html_notebook
+---
+Téléchargement du dataset :
+
+```{r}
+data <- read.csv(url("https://simplonline-v3-prod.s3.eu-west-3.amazonaws.com/media/file/csv/a5707984-9111-4d36-9da9-4ab5d35162cd.csv"))
+```
+
+```{r}
+head(data)
+```
+
+Nous avons une visualisation de notre CSV. Le but est ici d'analyser les features qui sont corrélées. Nous utilisons pour cela la corrélation de Pearson :
+
+```{r}
+install.packages('corrplot')
+```
+
+```{r}
+library('corrplot')
+```
+```{r}
+correlation<-cor(data,method=c("pearson"))
+corrplot(correlation, type="upper", order="hclust", tl.col="black", tl.srt=45)
+```
+Nous apercevons que seulement deux variables sont corrélées : SquareMeters et Price. Nous sommes donc confrontés à un problème de régression linéaire. Sur la matrice affichée, nous avons une corrélation proche de 1 entre ces deux variables.
+
+```{r}
+cor(data$price, data$squareMeters, method = "pearson")
+```
+Nous allons maintenant créer notre modèle simple :
+
+
+Nous avons nos deux coefficients (a et b) de notre équation linéaire y = ax + b.
+
+```{r}
+install.packages('ggplot2')
+```
+```{r}
+library(ggplot2)
+model<-lm(price ~ squareMeters, data=data)
+model
+```
+```{r}
+ggplot(data, aes(x = price, y = squareMeters)) +
+  geom_point() +
+  stat_smooth(method = lm)
+```
+
+```{r}
+save(model,file="model.rda")
+```
+
+
+
+
+
+
+
+
+
+
