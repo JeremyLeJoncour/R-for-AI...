@@ -71,3 +71,5 @@ Un template de base est généré en ouvrant le fichier app.R. Notre modèle est
 <p align="center">
   <img src="Ressources/conclusion.png" />
 </p>
+
+Plus d'informations : http://intelligency.org/ai_r.php
